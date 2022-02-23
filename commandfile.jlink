@@ -1,0 +1,6 @@
+connect
+reset
+halt
+loadbin main.bin, 0x0
+verifybin main.bin, 0x0
+exit
