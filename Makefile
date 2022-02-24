@@ -16,6 +16,7 @@ CFLAGS = -ffreestanding \
 		-nostdlib \
 		-lgcc \
 		-nostdinc \
+		-save-temps \
 		-mthumb \
 		-mcpu=cortex-m0plus
 
@@ -27,26 +28,21 @@ main.bin: main.elf
 main.elf: main.o startup.o samd21.ld
 	$(LD) -Tsamd21.ld -o main.elf startup.o main.o
 
-main.o: main.s
-	$(CC) $(CFLAGS) -c -o main.o main.s
+main.o: main.c
+	$(CC) $(CFLAGS) -c -o main.o main.c
 
-main.s: main.c
-	$(CC) $(CFLAGS) -S main.c
-
-startup.o: startup.s
-	$(CC) $(CFLAGS) -c -o startup.o startup.s
-
-startup.s: startup.c
-	$(CC) $(CFLAGS) -S startup.c
+startup.o: startup.c
+	$(CC) $(CFLAGS) -c -o startup.o startup.c
 
 download: main.bin
 	sh download.sh
 
 gdb: download
-	sh "gdbserver.sh & arm-none-eabi-gdb -q main.elf -ex \"target remote localhost:2331\""
+	sh gdbserver.sh & \
+	arm-none-eabi-gdb main.elf -q -ex \"target remote localhost:2331\"
 
 clean:
-	rm -f *.s *.a *.o *.elf *.v *.bin *.hex *.dm 
+	rm -f *.i *.s *.a *.o *.elf *.v *.bin *.hex
 
 #		-ffunction-sections \
 #		-fdata-sections \
