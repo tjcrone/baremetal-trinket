@@ -11,7 +11,6 @@ CFLAGS=-ffreestanding \
 		-ggdb \
 		-nostdlib \
 		-lgcc \
-		-save-temps \
 		-mthumb \
 		-mcpu=cortex-m0plus \
 		-mlong-calls \
