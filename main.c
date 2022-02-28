@@ -1,4 +1,4 @@
-#include "samd21e18a.h"
+#include "samd21.h"
 
 void port_init(void);
 void blink(void);
