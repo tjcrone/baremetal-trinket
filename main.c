@@ -1,12 +1,25 @@
-static const int a = 9;
-static int b = 3;
-static int sum = 0;
+#include "samd21e18a.h"
 
-int main()
+void port_init(void);
+void blink(void);
+
+int main(void)
 {
-  sum = a + b;
+  SystemInit();
+  port_init();
+
   while (1) {
-    // infinite loop
+    blink(); 
   }
-  return 0;
+}
+
+void port_init(void) {
+  PORT->Group[0].DIR.reg |= PORT_PA10;        // pin PA10 is output
+}
+
+void blink(void) {
+  PORT->Group[0].OUT.reg |= PORT_PA10;        // pin high
+  for (int i = 0 ; i < 100000; i++);          // delay
+  PORT->Group[0].OUT.reg &= ~(PORT_PA10);     // pin low
+  for (int i = 0 ; i < 100000; i++);
 }
