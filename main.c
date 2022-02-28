@@ -14,12 +14,12 @@ int main(void)
 }
 
 void port_init(void) {
-  PORT->Group[0].DIR.reg |= PORT_PA10;        // pin PA10 is output
+  REG_PORT_DIR0 |= PORT_PA10;
 }
 
 void blink(void) {
-  PORT->Group[0].OUT.reg |= PORT_PA10;        // pin high
-  for (int i = 0 ; i < 100000; i++);          // delay
-  PORT->Group[0].OUT.reg &= ~(PORT_PA10);     // pin low
+  REG_PORT_OUT0 |= PORT_PA10;
+  for (int i = 0 ; i < 100000; i++);
+  REG_PORT_OUT0 &= ~(PORT_PA10);
   for (int i = 0 ; i < 100000; i++);
 }
